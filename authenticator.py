@@ -1,11 +1,13 @@
 import md5
+import csv
 
 class Authenticator:
 
 	def __init__(self):
-		self.userData = loadTable
+		self.userData  = []
+		self.loadTable()
 
-	def loadTable(filename='db.txt'):
+	def loadTable(self,filename='db.txt'):
 		with open(filename,'rb') as csvfile:
 			salt_counter = 0
 			qreader = csv.reader(csvfile)
@@ -38,7 +40,7 @@ class Authenticator:
 		print 'Error: User not found.'
 		return None
 
-	def authenticate(userName,password,salt=''):
+	def authenticate(self, userName,password,salt=''):
 		user = self.lookupByUsername(userName)
 		#default hash is empty. God, I love python!
 		md5Hash = md5.new(password+salt)
@@ -48,4 +50,8 @@ class Authenticator:
 		print 'username: {0}'.format(user[2])
 		print 'password: {0}'.format(password+salt)
 		print accessMsg
-		
+
+################################################################################################
+# Main
+test = Authenticator()
+test.authenticate('esullivan','123456')
