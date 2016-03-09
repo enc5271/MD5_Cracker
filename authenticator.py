@@ -45,13 +45,22 @@ class Authenticator:
 		#default hash is empty. God, I love python!
 		md5Hash = md5.new(password+salt)
 		accessMsg = 'ACCESS DENIED'
-		if user[5]==md5Hash:
+		if user[5]==md5Hash.hexdigest():
 			accessMsg = 'ACCESS GRANTED, YOU STUD!'
 		print 'username: {0}'.format(user[2])
 		print 'password: {0}'.format(password+salt)
 		print accessMsg
 
+	def authenticateList(self,userName,passwords):
+		user = self.lookupByUsername(userName)
+		for pair in passwords:
+			(real, hashVal)= pair
+			if user[5]==hashVal:
+				return real
+		return -1
+
 ################################################################################################
 # Main
-test = Authenticator()
-test.authenticate('esullivan','123456')
+if __name__ == "__main__":
+	test = Authenticator()
+	test.authenticate('esullivan','hotdog')
